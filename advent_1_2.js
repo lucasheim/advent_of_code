@@ -1,23 +1,20 @@
-const InputReader = require("./inputReader");
+const InputReader = require("./InputReader");
+const AnswerPrinter = require("./AnswerPrinter");
 
 var input = InputReader.readFile("inputs/input_1.txt");
 //input = "+3, +3, +4, -2, -4";
 
-var operations = input.split("\n");
-var reachedValues = {};
-var sum = 0;
-var repeatedNumber;
-
-while (!repeatedNumber) {
-    operations.every((number) => {
-        sum += Number(number);
-        if (reachedValues[sum]) {
-          repeatedNumber = sum;
-          return false;
+function findFirstRepeatedSum(operations) {
+    var reachedValues = {};
+    var sum = 0;
+    
+    while (true) {
+        for (let operation of operations) {
+            sum += Number(operation);
+            if (reachedValues[sum]) return sum;
+            reachedValues[sum] = true;
         }
-        reachedValues[sum] = true;
-        return true;
-    });
+    }
 }
 
-console.log(repeatedNumber);
+AnswerPrinter.printAnswerWithTime(findFirstRepeatedSum, input.split("\r\n"));
