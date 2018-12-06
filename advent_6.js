@@ -8,13 +8,13 @@ function findLargestNonInfiniteArea(coordinatesInput) {
   const coordinates = {};
   const pattern = /(\d*), (\d*)/g;
   const areaMapping = {};
-  let charCode = 1;
-
+  let index = 1;
   let minX = 9999999;
   let maxX = 0;
   let minY = 9999999;
   let maxY = 0;
 
+  // Parse coordinates
   for (let coordinate of coordinatesInput) {
     const regex = new RegExp(pattern);
     const matches = regex.exec(coordinate);
@@ -22,12 +22,12 @@ function findLargestNonInfiniteArea(coordinatesInput) {
     maxX = +matches[1] > maxX ? +matches[1] : maxX;
     minY = +matches[2] < minY ? +matches[2] : minY;
     maxY = +matches[2] > maxY ? +matches[2] : maxY;
-    coordinates[charCode] = [+matches[1], +matches[2]];
-    charCode++;
+    coordinates[index] = [+matches[1], +matches[2]];
+    index++;
   }
 
+  // Fill in matrix with closest coordinate available (by Manhattan distance)
   const matrix = [];
-
   for (let y = 0; y < maxY + 1; y++) {
     matrix[y] = matrix[y] ? matrix[y] : [];
     for (let x = 0; x < maxX + 1; x++) {
@@ -42,7 +42,7 @@ function findLargestNonInfiniteArea(coordinatesInput) {
           minTaxicabDifference = taxicabDifference;
           chosenPoint = point;
         } else if (taxicabDifference === minTaxicabDifference) {
-          chosenPoint += "," + point;
+          chosenPoint += `, ${point}`;
         }
       });
       if (chosenPoint.indexOf(",") > -1) {
@@ -54,8 +54,7 @@ function findLargestNonInfiniteArea(coordinatesInput) {
     }
   }
 
-  areaMapping["."] = 0;
-
+  // Clear mapping of infinite ones (the ones who touch the borders)
   for (let i = 0; i < matrix.length; i++) {
     for (let j = 0; j < matrix[i].length; j++) {
       if (i === 0 || j === 0) {

@@ -7,8 +7,7 @@ let input = InputReader.readFile("inputs/input_6.txt");
 function findRegion(coordinatesInput) {
   const coordinates = {};
   const pattern = /(\d*), (\d*)/g;
-  let charCode = 1;
-
+  let index = 1;
   let minX = 9999999;
   let maxX = 0;
   let minY = 9999999;
@@ -21,12 +20,11 @@ function findRegion(coordinatesInput) {
     maxX = +matches[1] > maxX ? +matches[1] : maxX;
     minY = +matches[2] < minY ? +matches[2] : minY;
     maxY = +matches[2] > maxY ? +matches[2] : maxY;
-    coordinates[charCode] = [+matches[1], +matches[2]];
-    charCode++;
+    coordinates[index] = [+matches[1], +matches[2]];
+    index++;
   }
 
   const matrix = [];
-
   let regionSize = 0;
 
   for (let y = 0; y < maxY + 1; y++) {
@@ -34,12 +32,12 @@ function findRegion(coordinatesInput) {
     for (let x = 0; x < maxX + 1; x++) {
       matrix[y][x] = "";
       let taxiCabDifferenceSum = 0;
-      Object.keys(coordinates).map((point) => {
+      for (let point of Object.keys(coordinates)) {
         const pointX = coordinates[point][0];
         const pointY = coordinates[point][1];
         const taxicabDifference = Math.abs(pointX - x) + Math.abs(pointY - y);
         taxiCabDifferenceSum += taxicabDifference;
-      });
+      }
       if (taxiCabDifferenceSum < 10000) {
         regionSize++;
       }
