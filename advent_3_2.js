@@ -8,7 +8,6 @@ const input = InputReader.readFile("inputs/input_3.txt");
 function findNonOverlappingClaim(boxes) {
   const pattern = /\#([\d]*) @ ([\d]*),([\d]*): (\d*)x(\d*)/g;
   const matrix = {};
-  const boxesArea = {};
 
   for (let box of boxes) {
     const regex = new RegExp(pattern);
