@@ -2,7 +2,7 @@ const InputReader = require("./InputReader");
 const AnswerPrinter = require("./AnswerPrinter");
 
 const input = InputReader.readFile("inputs/input_5.txt");
-//var input = "dabAcCaCBAcCcaDA";
+//input = "dabAcCaCBAcCcaDA";
 
 // Props to Ali Spittel for the stack solution https://dev.to/aspittel/comment/7bid
 function react(letters) {

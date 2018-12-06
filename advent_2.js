@@ -1,7 +1,7 @@
 const InputReader = require("./InputReader");
 const AnswerPrinter = require("./AnswerPrinter");
 
-var input = InputReader.readFile("inputs/input_2.txt");
+const input = InputReader.readFile("inputs/input_2.txt");
 //input = "abcdef,bababc,abbcde,abcccd,aabcdd,abcdee,ababab"
 
 function countTwoAndThree(words) {
