@@ -1,12 +1,12 @@
 const InputReader = require("./InputReader");
 const AnswerPrinter = require("./AnswerPrinter");
 
-var input = InputReader.readFile("inputs/input_1.txt");
+const input = InputReader.readFile("inputs/input_1.txt");
 //input = "+3, +3, +4, -2, -4";
 
 function findFirstRepeatedSum(operations) {
-    var reachedValues = {};
-    var sum = 0;
+    const reachedValues = {};
+    let sum = 0;
     
     while (true) {
         for (let operation of operations) {
