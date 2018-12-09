@@ -1,40 +1,39 @@
 const InputReader = require("./InputReader");
 const AnswerPrinter = require("./AnswerPrinter");
-const assert = require ("assert");
 
-//let input = InputReader.readFile("inputs/input_9.txt");
-//input = InputReader.readFile("inputs/input_8_test.txt");
+let input = InputReader.readFile("inputs/input_9.txt");
 
-const playersQty = 404;
-const marbleQty = 71852;
+const pattern = /(.*) players; last marble is worth (.*) points/g;
+const regex = new RegExp(pattern);
+const inputData = regex.exec(input);
 
-let marbleChain = [ 0 ];
-const playerTally = {};
-let currentMarble = 0;
-let currentPlayer = 1;
+function getHighscoreOfMarbleGame(playersQty, marbleQty) {
+  const marbleChain = [ 0 ];
+  const playerTally = Array.from({length: playersQty}, p => 0);
+  let currentMarble = 0;
 
-function getHighscoreOfMarbleGame() {
   for (let i = 1; i <= marbleQty; i++) {
     const currentMarbleIndex = marbleChain.findIndex((val) => val === currentMarble);
-    if (i % 23 === 0) {
-      playerTally[currentPlayer] = playerTally[currentPlayer] ? playerTally[currentPlayer] + i : i;
-      const indexToRemove = currentMarbleIndex - 7;
-      currentMarble = marbleChain[indexToRemove + 1];
-      const removedMarble = marbleChain.splice(indexToRemove, 1);
-      playerTally[currentPlayer] += removedMarble[0];
-    } else {
-      const indexToInsert = getIndex(currentMarbleIndex + 1) + 1;
+
+    if (isUsualMarble(i)) {
+      const indexToInsert = getCircularIndex(currentMarbleIndex + 1, marbleChain) + 1;
       marbleChain.splice(indexToInsert, 0, i);
       currentMarble = i;
+    } else {
+      const currentPlayer = i % playersQty;
+      const indexToRemove = getCircularIndex(currentMarbleIndex - 7, marbleChain);
+      currentMarble = marbleChain[indexToRemove + 1];
+      playerTally[currentPlayer] += i + +marbleChain.splice(indexToRemove, 1);
     }
-    currentPlayer++;
-    if (currentPlayer > playersQty) currentPlayer = 1;
   }
-
-  return Math.max(...Object.values(playerTally));
+  return Math.max(...playerTally);
 }
 
-function getIndex(index) {
+function isUsualMarble(marbleNumber) {
+  return marbleNumber % 23 > 0;
+}
+
+function getCircularIndex(index, marbleChain) {
   if (index < 0) {
     if (index % marbleChain.length === 0) {
       return 0;
@@ -44,4 +43,4 @@ function getIndex(index) {
   return index % marbleChain.length;
 }
 
-AnswerPrinter.printAnswerWithTime(getHighscoreOfMarbleGame);
+AnswerPrinter.printAnswerWithTime(getHighscoreOfMarbleGame, inputData[1], inputData[2]);
