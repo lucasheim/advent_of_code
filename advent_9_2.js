@@ -8,7 +8,7 @@ const regex = new RegExp(pattern);
 const inputData = regex.exec(input);
 
 // As I couldn't get my previous code to handle such a big input,
-// I got this amazing circular implementation from the great Tiago Garcia
+// I got this amazing circular list implementation from the great Tiago Garcia
 // https://dev.to/themindfuldev/comment/7e10
 
 class Node {
