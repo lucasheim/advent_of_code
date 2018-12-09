@@ -1,8 +1,11 @@
 const InputReader = require("./InputReader");
 const AnswerPrinter = require("./AnswerPrinter");
 
-//let input = InputReader.readFile("inputs/input_9.txt");
-//input = InputReader.readFile("inputs/input_8_test.txt");
+let input = InputReader.readFile("inputs/input_9.txt");
+
+const pattern = /(.*) players; last marble is worth (.*) points/g;
+const regex = new RegExp(pattern);
+const inputData = regex.exec(input);
 
 // As I couldn't get my previous code to handle such a big input,
 // I got this amazing circular implementation from the great Tiago Garcia
@@ -42,11 +45,7 @@ class Node {
   }
 }
 
-const playersQty = 404;
-const marbleQty = 7185200;
-
-
-function getHighscoreOfMarbleGame() {
+function getHighscoreOfMarbleGame(playersQty, marbleQty) {
   const playerTally = Array.from({length: playersQty }, p => 0);
   let currentMarble = new Node(0);
 
@@ -67,4 +66,4 @@ function getHighscoreOfMarbleGame() {
   return Math.max(...playerTally);
 }
 
-AnswerPrinter.printAnswerWithTime(getHighscoreOfMarbleGame);
+AnswerPrinter.printAnswerWithTime(getHighscoreOfMarbleGame, inputData[1], inputData[2] * 100);
