@@ -11,7 +11,7 @@ function countTwoAndThree(words) {
   for (let word of words) {
     const letterMap = {};
     for (let letter of word.split("")) {
-      letterMap[letter] = letterMap[letter] ? letterMap[letter] + 1 : 1;
+      letterMap[letter] = (letterMap[letter] || 0) + 1;
     }
     const values = Object.values(letterMap);
     if (values.includes(2)) {
@@ -21,7 +21,6 @@ function countTwoAndThree(words) {
       wordsContainingThreeRepeatedLetters++;
     }
   }
-
   return wordsContainingTwoRepeatedLetters * wordsContainingThreeRepeatedLetters;
 }
 
