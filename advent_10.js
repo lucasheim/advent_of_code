@@ -73,10 +73,10 @@ class PointGrid {
 
 class Point {
   constructor(x, y, xVel, yVel) {
-    this.x = Number(x.trim());
-    this.y = Number(y.trim());
-    this.xVel = Number(xVel.trim());
-    this.yVel = Number(yVel.trim());
+    this.x = x;
+    this.y = y;
+    this.xVel = xVel;
+    this.yVel = yVel;
   }
 
   move() {
@@ -90,15 +90,14 @@ class Point {
   }
 }
 
-const pattern = /position=<(.*),(.*)> velocity=<(.*),(.*)>/g;
+const pattern = /position=<(?<y>.*),(?<x>.*)> velocity=<(?<yVel>.*),(?<xVel>.*)>/;
 
 function printStarsPosition(entries) {
   const grid = new PointGrid();
 
   for (let entry of entries) {
-    const regex = new RegExp(pattern);
-    const matches = regex.exec(entry);
-    const point = new Point(matches[2], matches[1], matches[4], matches[3]);
+    const { x, y, xVel, yVel } = entry.match(pattern).groups;
+    const point = new Point(+x, +y, +xVel, +yVel);
     grid.insertPoint(point);
   }
 
